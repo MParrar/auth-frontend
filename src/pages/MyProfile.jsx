@@ -19,6 +19,7 @@ import { RemoveUserConfirmation } from "../components/RemoveUserConfirmation";
 import { Loading } from "../components/Loading";
 import { ChangePasswordForm } from "../components/ChangePasswordForm";
 import { EditProfileForm } from "../components/EditProfileForm";
+import { validateEditProfileForm, validateNewPasswordForm } from "../utils/validations";
 
 const initialPassword = {
   password: "",
@@ -38,7 +39,7 @@ export const MyProfile = () => {
   });
   const [newPassword, setNewPassword] = useState(initialPassword);
   const [newPasswordError, setNewPasswordError] = useState("");
-  const [editProfileError, seEditProfileError] = useState("");
+  const [editProfileError, setEditProfileError] = useState("");
 
   const isNewPasswordFormValid =
     Object.values(newPasswordError).some((err) => err !== "") ||
@@ -48,46 +49,18 @@ export const MyProfile = () => {
     (err) => err !== ""
   );
 
-  useEffect(() => {
-    getUserProfile()
-  },[]);
-
   const handleChangeNewPassword = (e) => {
     const { name, value } = e.target;
     setNewPassword({ ...newPassword, [name]: value });
 
-    validateNewPasswordForm(name, value);
-  };
-
-  const validateNewPasswordForm = (name, value) => {
-    const newErrors = { ...newPasswordError };
-    if (name === "password" && value.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-    } else if (name === "confirmPassword" && value !== newPassword.password) {
-      newErrors.confirmPassword = "Passwords do not match";
-    } else {
-      delete newErrors[name];
-    }
-    setNewPasswordError(newErrors);
+    validateNewPasswordForm({ ...newPassword, [name]: value }, setNewPasswordError, newPasswordError);
   };
 
   const handleChangeEditProfile = (e) => {
     const { name, value } = e.target;
     setUserInformation({ ...userInformation, [name]: value });
 
-    validateEditProfileForm(name, value);
-  };
-
-  const validateEditProfileForm = (name, value) => {
-    const newErrors = { ...editProfileError };
-    if (name === "name" && !value) {
-      newErrors.name = "Name is required";
-    } else if (name === "email" && !isValidEmail(value)) {
-      newErrors.email = "Invalid email format";
-    } else {
-      delete newErrors[name];
-    }
-    seEditProfileError(newErrors);
+    validateEditProfileForm(name, value, setEditProfileError, editProfileError);
   };
 
   useEffect(() => {
@@ -105,6 +78,8 @@ export const MyProfile = () => {
 
   const closeChangePasswordDialog = () => {
     setShowChangePasswordDialog(false);
+    setNewPassword(initialPassword);
+    setNewPasswordError("");
   };
 
   const openChangePasswordDialog = () => {
@@ -121,6 +96,7 @@ export const MyProfile = () => {
 
   const closeEditDialog = () => {
     setShowEditDialog(false);
+    setEditProfileError("")
   };
 
   const editUserInformation = () => {

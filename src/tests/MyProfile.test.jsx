@@ -8,7 +8,7 @@ import { MyProfile } from "../pages/MyProfile";
 
 describe("My Profile", () => {
 
-const mockUser = {
+const userData = {
     id: 1,
     email: "test@example.com",
     name: "Test User",
@@ -18,7 +18,7 @@ const mockUser = {
     render(
       <BrowserRouter>
         <NotificationProvider>
-          <AuthProvider initialUser={mockUser}>
+          <AuthProvider initialUser={userData}>
             <MyProfile />
           </AuthProvider>
         </NotificationProvider>
@@ -41,7 +41,12 @@ const mockUser = {
   });
 
 it("Edit My Profile", async () => {
-    const userCredential = { id: mockUser.id, email: "email@email.com", name: "Naruto" };
+  vi.mock("../utils/validations", () => ({
+    isTokenValid: vi.fn().mockReturnValue(true),
+    validateEditProfileForm: vi.fn().mockReturnValue(true), 
+
+  }));
+    const userCredential = { id: userData.id, email: "email@email.com", name: "Naruto" };
   
     const openEditModal = screen.getByRole("button", { name: "Edit" });
     fireEvent.click(openEditModal);

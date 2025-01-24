@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import { NewUserForm } from "../components/NewUserForm";
 import AuthContext from "../contexts/AuthProvider";
-import { isValidEmail } from "../utils/validations";
+import { validateNewUserForm } from "../utils/validations";
 
 const initialFormValues = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
-}
+};
 
 export const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -21,7 +21,7 @@ export const Register = () => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
-    validateNewUserForm(name, value);
+    validateNewUserForm({ ...form, [name]: value }, setError, error);
   };
 
   const handleSubmit = (e) => {
@@ -32,33 +32,19 @@ export const Register = () => {
       password: form.password,
       role: "user",
     });
-    setError({})
-    setForm(initialFormValues)
-  };
-
-  const validateNewUserForm = (name, value) => {
-    const newErrors = { ...error };
-    if (name === "name" && !value) {
-      newErrors.name = "Name is required";
-    } else if (
-      name === "email" &&
-      !isValidEmail(value)
-    ) {
-      newErrors.email = "Invalid email format";
-    } else if (name === "password" && value.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-    } else if (name === "confirmPassword" && value !== form.password) {
-      newErrors.confirmPassword = "Passwords do not match";
-    } else {
-      delete newErrors[name];
-    }
-    setError(newErrors);
+    setError({});
+    setForm(initialFormValues);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
       <div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6" data-testid="register-heading">Register</h2>
+        <h2
+          className="text-2xl font-bold text-center mb-6"
+          data-testid="register-heading"
+        >
+          Register
+        </h2>
         <div className="text-black">
           <NewUserForm
             showLinks={true}

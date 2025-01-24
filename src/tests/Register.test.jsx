@@ -36,6 +36,11 @@ describe("Register", () => {
   });
 
   it("Register new user", async () => {
+    vi.mock("../utils/validations", () => ({
+      isTokenValid: vi.fn().mockReturnValue(true),
+      validateNewUserForm: vi.fn().mockReturnValue(true), 
+
+    }));
     const userForm = { name: "Sasuke", email: "email@email.com", password: "12345678", confirmPassword: "12345678", role: "user" };
     const nameInput = screen.getByTestId("form-user-name-input");
     const emailInput = screen.getByTestId("form-user-email-input");

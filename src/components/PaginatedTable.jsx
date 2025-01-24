@@ -68,7 +68,7 @@ function PaginatedTable({ data, headers, rowsPerPage = 5, actions }) {
         >
           Previous
         </PaginationPrevious>
-        <PaginationList oncL>
+        <PaginationList>
           {Array.from({ length: totalPages }, (_, index) => (
             <PaginationPage
               key={index}
