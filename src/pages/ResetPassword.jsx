@@ -50,7 +50,7 @@ export const ResetPassword = () => {
         }
       })
       .catch((err) =>
-        showNotification("error", err.response.data.message)
+        showNotification("error", err.response?.data?.message)
       );
     setError("");
     setPasswordsPasswordForm(initialPasswordForm)

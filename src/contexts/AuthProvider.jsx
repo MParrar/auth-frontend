@@ -26,7 +26,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
           }
         })
         .catch((err) => {
-            showNotification("error", err.response.data.message);
+            showNotification("error", err.response?.data?.message);
             logout();
         })
         .finally(() => setIsLoading(false));
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
       axios
         .get(`${import.meta.env.VITE_BASE_URL}/admin/list`)
         .then((res) => setUsers(res.data))
-        .catch((err) => showNotification("error", err.response.data.message))
+        .catch((err) => showNotification("error", err.response?.data?.message))
         .finally(() => setIsLoading(false));
     } 
   }
@@ -126,7 +126,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
         setUsers([...users, res.user]);
         showNotification("success", "User Created Successfully");
       })
-      .catch((err) => showNotification("error", err.response.data.message))
+      .catch((err) => showNotification("error", err.response?.data?.message))
       .finally(() => setIsLoading(false));
   };
 
@@ -154,7 +154,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
         }
       })
       .catch((err) =>
-        showNotification("error", err.response.data.message)
+        showNotification("error", err.response?.data?.message)
       )
       .finally(() => setIsLoading(false))
   };
@@ -175,7 +175,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
         showNotification("success", "User has been successfully removed");
       })
       .catch((err) =>
-        showNotification("error", err.response.data.message)
+        showNotification("error", err.response?.data?.message)
       );
   };
 

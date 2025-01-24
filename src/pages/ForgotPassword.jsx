@@ -22,7 +22,7 @@ export const ForgotPassword = () => {
           showNotification('success',res.data.message);
         }
     }).catch((err) => {
-      showNotification('error', err.response.data.message)
+      showNotification('error', err.response?.data?.message)
     }
     ).finally(() => setEmail(''))
   }
