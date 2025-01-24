@@ -18,7 +18,6 @@ export const AuditLogs = () => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1);
   };
 
   const filteredLogs = logs

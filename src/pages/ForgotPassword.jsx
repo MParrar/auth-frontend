@@ -9,7 +9,7 @@ export const ForgotPassword = () => {
   const showNotification = useNotification();
 
   const [email, setEmail] = useState('');
-  const hasEmailErrors = !isValidEmail(email)
+  const hasEmailErrors = !isValidEmail(email);
 
   const resetPassword = (e) => {
     e.preventDefault()
@@ -18,9 +18,12 @@ export const ForgotPassword = () => {
     }
     axios.post(`${import.meta.env.VITE_BASE_URL}/forgot-password`, {email})
     .then((res) => {
-        showNotification('success', "Link has been sent to your email")
-    }).catch((err) => 
-      showNotification('error', "An error occurred. Please try again later")
+        if (res.data.status === "success"){
+          showNotification('success',res.data.message);
+        }
+    }).catch((err) => {
+      showNotification('error', err.response.data.message)
+    }
     ).finally(() => setEmail(''))
   }
 

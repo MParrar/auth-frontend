@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Button } from '../components/button'
-import { Input } from '../components/input'
 import { Link, useNavigate } from "react-router";
 import AuthContext from "../contexts/AuthProvider";
 import axios from "axios";

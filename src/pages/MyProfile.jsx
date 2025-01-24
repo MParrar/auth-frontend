@@ -27,7 +27,7 @@ const initialPassword = {
 };
 
 export const MyProfile = () => {
-  const { user, updateUser, changePassword, removeUser, logout, isLoading, getUserProfile} =
+  const { user, updateUser, changePassword, removeUser, logout, isLoading } =
     useContext(AuthContext);
   const [showRemoveDialog, setShowRemoveDialogDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);

@@ -11,6 +11,7 @@ export const isTokenValid = (token) => {
     const currentTime = Date.now() / 1000;
     return decoded.exp > currentTime;
   } catch (error) {
+    console.log(error)
     return false;
   }
 };

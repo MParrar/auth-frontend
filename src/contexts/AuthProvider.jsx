@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useNotification } from "./NotificationProvider";
 import { isTokenValid } from "../utils/validations";
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
       axios
         .get(`${import.meta.env.VITE_BASE_URL}/admin/list`)
         .then((res) => setUsers(res.data))
-        .catch((err) => showNotification("error", "An error occurred. Please try again later"))
+        .catch((err) => showNotification("error", err.response.data.message))
         .finally(() => setIsLoading(false));
     } 
   }
@@ -126,7 +126,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
         setUsers([...users, res.user]);
         showNotification("success", "User Created Successfully");
       })
-      .catch((err) => showNotification("error", "An error occurred. Please try again later"))
+      .catch((err) => showNotification("error", err.response.data.message))
       .finally(() => setIsLoading(false));
   };
 
@@ -154,7 +154,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
         }
       })
       .catch((err) =>
-        showNotification("error", 'An error occurred. Please try again later')
+        showNotification("error", err.response.data.message)
       )
       .finally(() => setIsLoading(false))
   };
@@ -175,7 +175,7 @@ export const AuthProvider = ({ children, initialUser = {} }) => {
         showNotification("success", "User has been successfully removed");
       })
       .catch((err) =>
-        showNotification("error", 'An error occurred. Please try again later')
+        showNotification("error", err.response.data.message)
       );
   };
 

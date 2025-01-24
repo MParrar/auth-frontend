@@ -45,10 +45,12 @@ export const ResetPassword = () => {
         password: passwordForm.password,
       })
       .then((res) => {
-        showNotification("success", "Password updated successfully");
+        if (res.data.status === "success"){
+          showNotification("success", res.data.message);
+        }
       })
       .catch((err) =>
-        showNotification("error", "An error occurred. Please try again later")
+        showNotification("error", err.response.data.message)
       );
     setError("");
     setPasswordsPasswordForm(initialPasswordForm)
